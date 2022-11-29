@@ -25,7 +25,7 @@ password | string | Password dari pengguna, disarankan menyusun password yang am
 confirmpassword | string | Konfirmasi password dari pengguna, disarankan menyusun password yang aman dan tidak sederhana
 
 Contoh:
-`POST` https://diggie.herokuapp.com/profile
+
 
 ![image](/img/register1.png)
 
