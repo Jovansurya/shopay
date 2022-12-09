@@ -1,6 +1,6 @@
 import Users from "../models/UsersModels.js";
 import jwt from "jsonwebtoken";
-import md5 from "md5";
+//import md5 from "md5";
 import jwt_decode from "jwt-decode";
 import { response } from "express";
 
@@ -16,10 +16,10 @@ export const getUsers = async (req, res) => {
 }
 
 export const Register = async (req, res) => {
-    const { email, name, password, confPassword, saldo } = req.body;
+    const { email, name, password, confPassword } = req.body;
     if (password !== confPassword) return res.status(400).json({ msg: "password dan confirm password tidak cocok" });
 
-    const hash = md5(email);
+    //const hash = md5(email);
     //const pwd = await bcrypt.hashSync(password, 2);
     //const  = await bcrypt.hash(password, salt);
 
@@ -27,9 +27,8 @@ export const Register = async (req, res) => {
         await Users.create({
             email: email,
             name: name,
-            saldo: saldo,
             password: password,
-            id_wallet: hash
+            id_wallet: 0
         });
 
         res.json({ msg: "Register Berhasil" });
@@ -176,7 +175,7 @@ export const getProfile = async (req, res) => {
             where: {
                 email: email
             },
-            attributes: ['email', 'password', 'name']
+            attributes: ['id', 'email', 'password', 'name', 'saldo']
         });
         res.json(users);
     } catch (error) {
@@ -202,17 +201,23 @@ export const pay = async (req, res) => {
             });
             let saldo = users.saldo
             const jumlah = req.body.jumlah
-            saldo -= jumlah
-            await Users.update({ saldo: saldo }, {
-                where: {
-                    email: email
-                }
-            })
-            const response = ({
-                "msg": `saldo anda ${saldo}`
-            })
-            // res.json(response);
-            res.status(200).json(response);
+            if (jumlah > saldo) {
+                res.status(400).send({
+                    msg: "saldo anda tidak mencukupi!",
+                });
+            } else {
+                saldo -= jumlah
+                await Users.update({ saldo: saldo }, {
+                    where: {
+                        email: email
+                    }
+                })
+                const response = ({
+                    "msg": `berhasil transaksi, saldo anda sekarang ${saldo}`
+                })
+                // res.json(response);
+                res.status(200).json(response);
+            }
         } catch (error) {
             console.log(error);
         }

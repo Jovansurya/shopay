@@ -13,7 +13,7 @@ router.delete('/logout', Logout);
 router.get('/profile/saldo/', verifyToken, getSaldo);
 router.patch('/profile/saldo/', verifyToken, topUp);
 router.get('/profile/saldo/', verifyToken, getSaldo);
-router.patch('/profile/', verifyToken, Uprofile);
+router.patch('/profile/',verifyToken, Uprofile);
 router.get('/profile/', verifyToken, getProfile);
 router.patch('/profile/pay', verifyToken, pay);
 export default router;
