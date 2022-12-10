@@ -111,7 +111,7 @@ export const topUp = async (req, res) => {
             });
             let saldo = users.saldo
             const jumlah = req.body.jumlah
-            saldo += jumlah
+            saldo = +saldo + +jumlah
             await Users.update({ saldo: saldo }, {
                 where: {
                     email: email
@@ -214,7 +214,7 @@ export const pay = async (req, res) => {
                     msg: "saldo anda tidak mencukupi!",
                 });
             } else {
-                saldo -= jumlah
+                saldo = +saldo - +jumlah
                 await Users.update({ saldo: saldo }, {
                     where: {
                         email: email
@@ -250,11 +250,12 @@ export const getHistory = async (req, res) => {
             const id_user = dataUser.userId
             console.log(auth)
             console.log(id_user)
-            const history = await History.findOne({
+            const history = await History.findAll({
                 where: {
                     id_user: id_user
                 }
             });
+            res.send(history)
             let amount = history.amount
             const status = history.id_status
             const response = ({
@@ -262,7 +263,7 @@ export const getHistory = async (req, res) => {
                 "amount": amount,
                 "tanggal": history.createdAt
             })
-            res.status(200).json(response);
+            // res.status(200).json(response);
 
         } catch (error) {
             console.log(error);
