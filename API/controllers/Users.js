@@ -1,4 +1,5 @@
 import Users from "../models/UsersModels.js";
+import History from "../models/HistoryModels.js";
 import jwt from "jsonwebtoken";
 //import md5 from "md5";
 import jwt_decode from "jwt-decode";
@@ -115,7 +116,14 @@ export const topUp = async (req, res) => {
                 where: {
                     email: email
                 }
+
             })
+
+            await History.create({
+                id_user: users.id,
+                id_status: 0,
+                amount: jumlah
+            });
             const response = ({
                 "msg": `saldo anda ${saldo}`
             })
@@ -212,12 +220,50 @@ export const pay = async (req, res) => {
                         email: email
                     }
                 })
+                await History.create({
+                    id_user: users.id,
+                    id_status: 1,
+                    amount: jumlah
+                });
                 const response = ({
                     "msg": `berhasil transaksi, saldo anda sekarang ${saldo}`
                 })
                 // res.json(response);
                 res.status(200).json(response);
             }
+        } catch (error) {
+            console.log(error);
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const getHistory = async (req, res) => {
+    try {
+        try {
+            let auth = req.headers['authorization']
+            const bearer = auth.split(' ')
+            const token = bearer[1]
+            const dataUser = jwt_decode(token)
+            const id_user = dataUser.userId
+            console.log(auth)
+            console.log(id_user)
+            const history = await History.findOne({
+                where: {
+                    id_user: id_user
+                }
+            });
+            let amount = history.amount
+            const status = history.id_status
+            const response = ({
+                "status": status,
+                "amount": amount,
+                "tanggal": history.createdAt
+            })
+            res.status(200).json(response);
+
         } catch (error) {
             console.log(error);
         }

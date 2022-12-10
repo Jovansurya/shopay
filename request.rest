@@ -1,0 +1,55 @@
+GET http://localhost:3000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJlbWFpbCI6InBlQGdtYWlsLmNvbSIsImlhdCI6MTY1NTEyMjc3OCwiZXhwIjoxNjU1MTIyOTU4fQ.wdlEa4lnxfU6RflwVD6titQH2BM_JUjDOStbubUjepA
+###
+POST http://localhost:3000/profile
+Content-Type: application/json
+
+{
+    "email": "haha@gmail.com",
+    "name": "haha",
+    "password": "553",
+    "confPassword": "553",
+    "saldo" : 10000
+}
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+
+{
+    "email": "pe@gmail.com",
+    "password": "553"
+}
+###
+GET http://localhost:3000/token
+###
+
+
+GET http://localhost:3000/profile
+
+
+
+
+###
+DELETE http://localhost:3000/logout
+###
+
+GET http://localhost:3000/api/profile/saldo/14
+
+###
+PATCH http://localhost:3000/profile/saldo/1
+Content-Type: application/json
+
+{   
+    "saldo": 5510  
+}
+###
+PATCH http://localhost:3000/profile/1
+Content-Type: application/json
+
+{
+    "name": "jovan"
+
+    
+}

@@ -1,5 +1,5 @@
 import express from "express";
-import { getUsers, Register, Login, Logout, topUp, getSaldo, Uprofile, getProfile, pay } from "../controllers/Users.js";
+import { getUsers, Register, Login, Logout, topUp, getSaldo, Uprofile, getProfile, pay, getHistory } from "../controllers/Users.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 
@@ -13,7 +13,8 @@ router.delete('/logout', Logout);
 router.get('/profile/saldo/', verifyToken, getSaldo);
 router.patch('/profile/saldo/', verifyToken, topUp);
 router.get('/profile/saldo/', verifyToken, getSaldo);
-router.patch('/profile/',verifyToken, Uprofile);
+router.patch('/profile/', verifyToken, Uprofile);
 router.get('/profile/', verifyToken, getProfile);
 router.patch('/profile/pay', verifyToken, pay);
+router.get('/profile/history', verifyToken, getHistory);
 export default router;
