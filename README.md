@@ -50,9 +50,13 @@ Contoh:
 
 Respon:
 
-![image](/img/login2.png)
+
 ![image](/img/login3.png)
+
 ![image](/img/login4.png)
+berhasil:
+
+![image](/img/login5.png)
 
 ### Top Up
 - Method: `PATCH`
@@ -98,3 +102,16 @@ Contoh:
 Respon:
 
 ![image](/img/transaksi2.png)
+
+### History
+- Method: `GET`
+- Autentikasi: Ya &rarr; Token yang didapat ketika melakukan login, disimpan pada Authorization Bearer
+
+id status:
+- 0 = top up
+- 1 = transaksi
+
+- Parameter: -
+
+Respon:
+![image](/img/history1.png)
